@@ -36,7 +36,7 @@ class CLIInputProcessor(Thread):
 
         self.has_custom_prompt = False
         self.prompt_message = ""
-        self.prompt_callback = None
+        self.prompt_callback: Callable[[str], None] | None = None
         self.prompt_silent = False
 
     def run(self) -> None:

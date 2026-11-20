@@ -88,10 +88,10 @@ class Downloads(Transfers):
         super().__init__(name="downloads")
 
         self._download_filter_regex = None
-        self._requested_folders = defaultdict(dict)
+        self._requested_folders: dict[str, dict[str, RequestedFolder]] = defaultdict(dict)
         self._requested_folder_token = initial_token()
-        self._folder_basename_byte_limits = {}
-        self._pending_queue_messages = {}
+        self._folder_basename_byte_limits: dict[str, int] = {}
+        self._pending_queue_messages: dict[Transfer, QueueUpload] = {}
 
         self._download_queue_timer_id = None
         self._retry_connection_downloads_timer_id = None
@@ -697,7 +697,7 @@ class Downloads(Transfers):
         # Merge download path with target folder name
         return safe_path_join(download_folder_path, *target_folders)
 
-    def get_default_download_folder(self, username=None):
+    def get_default_download_folder(self, username=None) -> str:
 
         download_folder_path = os.path.normpath(os.path.expandvars(config.sections["transfers"]["downloaddir"]))
 
@@ -707,7 +707,7 @@ class Downloads(Transfers):
 
         return download_folder_path
 
-    def get_incomplete_download_folder(self):
+    def get_incomplete_download_folder(self) -> str:
         return os.path.normpath(os.path.expandvars(config.sections["transfers"]["incompletedir"]))
 
     def get_basename_byte_limit(self, folder_path: str):

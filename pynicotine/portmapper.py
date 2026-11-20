@@ -349,7 +349,9 @@ class UPnP(BaseImplementation):
             return service_type, control_url
 
         @staticmethod
-        def add_service(services: dict[str, UPnP.Service], locations, ssdp_response: UPnP.SSDPResponse) -> None:
+        def add_service(
+            services: dict[str, UPnP.Service], locations: set[str], ssdp_response: UPnP.SSDPResponse
+        ) -> None:
 
             response_headers = {k.upper(): v for k, v in ssdp_response.headers}
             log.add_debug("UPnP: Device search response: %s", bytes(ssdp_response))
